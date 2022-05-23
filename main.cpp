@@ -7,7 +7,11 @@ float newLevel(int ownLevel, float averageOpponent, float matches, float score) 
     int maxLevel = 0;
     int maxPromo = (int)(matches / 5);
     float percentage = (score / matches) * 100;
-    if (percentage > 69 && ownLevel == averageOpponent) {
+    if (percentage > 69 && ownLevel < averageOpponent) {
+        maxPromo += 1;
+        if (maxPromo > averageOpponent + 1 - ownLevel) { maxPromo = averageOpponent + 1 - ownLevel; }
+        return ownLevel + maxPromo;
+    } else if (percentage > 69 && ownLevel == averageOpponent) {
         return ownLevel + 1; 
     } else if (percentage > 59 && ownLevel < averageOpponent) { 
         if (maxPromo > averageOpponent - ownLevel) { maxPromo = averageOpponent - ownLevel; }
