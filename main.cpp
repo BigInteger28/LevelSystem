@@ -2,30 +2,28 @@
 
 using namespace std;
 
-float newLevel(float ownLevel, float averageOpponent, float matches, float score) {
+float newLevel(int ownLevel, float averageOpponent, float matches, float score) {
+    averageOpponent = (int)averageOpponent;
     int maxLevel = 0;
-    int maxPromo = matches / 5;
-    if (maxPromo > averageOpponent) {
-        maxLevel = (int)averageOpponent;
-    } else if (maxPromo < averageOpponent) {
-        maxLevel = (int)maxPromo;
-    }
+    int maxPromo = (int)(matches / 5);
     float percentage = (score / matches) * 100;
-    if (percentage >= 70 && averageOpponent > ownLevel) {
-        return ownLevel + maxLevel;
-    } else if (percentage >= 70 && averageOpponent == ownLevel) {
-        return ownLevel + 1;
-    } else if (percentage <= 30 && averageOpponent < ownLevel && ownLevel > 1) {
-        return ownLevel - 1;
-    } else if (percentage <= 20 && averageOpponent == ownLevel && ownLevel > 1) {
-        return ownLevel - 1;
+    if (percentage > 69 && ownLevel == averageOpponent) {
+        return ownLevel + 1; 
+    } else if (percentage > 59 && ownLevel < averageOpponent) { 
+        if (maxPromo > averageOpponent - ownLevel) { maxPromo = averageOpponent - ownLevel; }
+        return ownLevel + maxPromo;
+    } else if (percentage < 21 && ownLevel == averageOpponent && ownLevel > 1) {
+        return ownLevel - 1; 
+    } else if (percentage < 31 && ownLevel > averageOpponent && ownLevel > 1) {
+        if (maxPromo > ownLevel - averageOpponent) { maxPromo = ownLevel - averageOpponent; }
+        return ownLevel - maxPromo;
     }
     return ownLevel;
 }
 
 int main() {
     while (1 != 2) {
-        float ownLevel;
+        int ownLevel;
         float averageOpponent;
         float matches;
         float score;
